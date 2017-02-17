@@ -66,6 +66,21 @@ int bubble(int list[], int n){
 	return comparisons;
 }
 
+int select(int list[], int n){
+	int comparisons = 0;
+	for (int i = 0; i < n - 1; i++){
+		int minIndex = i;
+		for (int j = i + 1; j < n; j++){
+			if (list[j] < list[minIndex]) minIndex = j;
+			comparisons++;
+		}
+		int temp = list[i];
+		list[i] = list[minIndex];
+		list[minIndex] = temp;
+	}
+	return comparisons;
+}
+
 void algorithmTest( int (*alg)(int *, int) ){
 	int operations = -1;
 
@@ -119,7 +134,7 @@ void algorithmTest( int (*alg)(int *, int) ){
 int main(void){
 
 	//bubbleTest();	
-	algorithmTest( &bubble);
+	algorithmTest( &select);
 
 	return 0;
 }
