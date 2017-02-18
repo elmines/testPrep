@@ -185,39 +185,43 @@ int median(int a, int b, int c){
 	return a;
 }
 
-void quicksort(int list[], int L, int R){
-	cout << "Quicksort called: L = " << L << ", R = " << R << endl;
-	printList(list, 20);
-
-	if (L >= R){
-	       cout << "Base case reached." << endl;
-       	       return;
-	}
+int partition(int list[], int L, int R){
+	//cout << "Partition called: L = " << L << ", R = " << R << endl;
+	//printList(list, 20);
 
 	int pivot = median(list[L], list[(L+R)/2], list[R]);
-	cout << "pivot = " << pivot << endl;
+	//cout << "pivot = " << pivot << endl;
 	int i = L, j = R;
 
 	while (i < j){
-		while (list[i] <= pivot && i < j) i++;
-		while (list[j] >= pivot && i < j) j--;
+		while (list[i] < pivot) i++;
+		while (list[j] > pivot) j--;
 
-		int temp = list[i];
-		list[i] = list[j];
-		list[j] = temp;
 
-		cout << "i = " << i << ", j = " << j << endl;
-		cout << "Swap made." << endl << endl;
+		if (i < j){
+			int temp = list[i];
+			list[i] = list[j];
+			list[j] = temp;
 
-		i++;
-		j--;
+			//cout << "i = " << i << ", j = " << j << endl;
+			//cout << "Swap made." << endl << endl;
+
+			i++;
+			j--;
+		}
 	}
-	//int M = i;
-	//quicksort(list, L, M);
-	//quicksort(list, M + 1, R);
 	
-	quicksort(list, L, i - 1);
-	quicksort(list, i, R);
+	return j;
+}
+
+void quicksort(int list[], int L, int R){
+
+	if (L >= R) return;
+
+	int M = partition(list, L, R);
+	quicksort(list, L, M);
+	quicksort(list, M + 1, R);
+
 	return;
 }
 
