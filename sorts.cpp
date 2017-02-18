@@ -81,6 +81,23 @@ int select(int list[], int n){
 	return comparisons;
 }
 
+int insert(int list[], int n){
+	int comparisons = 0;
+	for (int i = 0; i < n - 1; i++){
+		for (int j = i + 1; j > 0; j--){
+
+			comparisons++;
+			if (list[j] >= list[j - 1]) break;
+
+
+			int temp = list[j - 1];
+			list[j - 1] = list[j];
+			list[j] = temp;
+		}
+	}
+	return comparisons;
+}
+
 void algorithmTest( int (*alg)(int *, int) ){
 	int operations = -1;
 
@@ -134,7 +151,7 @@ void algorithmTest( int (*alg)(int *, int) ){
 int main(void){
 
 	//bubbleTest();	
-	algorithmTest( &select);
+	algorithmTest( &insert);
 
 	return 0;
 }
