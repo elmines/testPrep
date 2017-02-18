@@ -98,6 +98,37 @@ int insert(int list[], int n){
 	return comparisons;
 }
 
+void mergeZip(int list[], int L, int R){
+	int buffer[R - L + 1];
+	int M = (L + R) / 2;
+	int i = L, j = M + 1, h = 0;
+
+	while ( (i <= M) && (j <= R) ){
+		if (list[i] < list[j]) buffer[h++] = list[i++];
+		else                   buffer[h++] = list[j++];
+	}
+	while (i <= M) buffer[h++] = list[i++];
+	while (j <= R) buffer[h++] = list[j++];
+	for (h = 0; h < (R - L + 1); h++) list[L + h] = buffer[h];
+
+	return;
+}
+
+void mergeDiv(int list[], int L, int R){
+	if (L >= R) return;
+	
+	int M = (L + R) / 2;
+	mergeDiv(list, L, M);
+	mergeDiv(list, M + 1, R);
+	mergeZip(list, L, R);
+	return;
+}
+
+int merge(int list[], int n){
+	mergeDiv(list, 0, n - 1);
+	return -1;
+}
+
 void algorithmTest( int (*alg)(int *, int) ){
 	int operations = -1;
 
@@ -151,7 +182,7 @@ void algorithmTest( int (*alg)(int *, int) ){
 int main(void){
 
 	//bubbleTest();	
-	algorithmTest( &insert);
+	algorithmTest( &merge);
 
 	return 0;
 }
