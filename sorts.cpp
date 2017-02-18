@@ -179,10 +179,57 @@ void algorithmTest( int (*alg)(int *, int) ){
 	return;
 }
 
+int median(int a, int b, int c){
+	if ( (a <= b && b <= c) || (c <= b && b <= a) ) return b;
+	if ( (a <= c && c <= b) || (b <= c && c <= a) ) return c;
+	return a;
+}
+
+void quicksort(int list[], int L, int R){
+	cout << "Quicksort called: L = " << L << ", R = " << R << endl;
+	printList(list, 20);
+
+	if (L >= R){
+	       cout << "Base case reached." << endl;
+       	       return;
+	}
+
+	int pivot = median(list[L], list[(L+R)/2], list[R]);
+	cout << "pivot = " << pivot << endl;
+	int i = L, j = R;
+
+	while (i < j){
+		while (list[i] <= pivot && i < j) i++;
+		while (list[j] >= pivot && i < j) j--;
+
+		int temp = list[i];
+		list[i] = list[j];
+		list[j] = temp;
+
+		cout << "i = " << i << ", j = " << j << endl;
+		cout << "Swap made." << endl << endl;
+
+		i++;
+		j--;
+	}
+	//int M = i;
+	//quicksort(list, L, M);
+	//quicksort(list, M + 1, R);
+	
+	quicksort(list, L, i - 1);
+	quicksort(list, i, R);
+	return;
+}
+
+int quick(int list[], int n){
+	quicksort(list, 0, n - 1);
+	return -1;
+}
+
 int main(void){
 
 	//bubbleTest();	
-	algorithmTest( &merge);
+	algorithmTest( &quick);
 
 	return 0;
 }
